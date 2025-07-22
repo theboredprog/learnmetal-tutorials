@@ -177,6 +177,11 @@ int main()
         @autoreleasepool
         {
             metalDrawable = metalLayer->nextDrawable();
+            
+            if (!metalDrawable)
+            {
+                std::cerr << "[WARNING] m_MetalDrawable is null. Possibly due to invalid layer size or window not drawable." << std::endl;
+            }
 
             metalCommandBuffer = metalCommandQueue->commandBuffer();
 
