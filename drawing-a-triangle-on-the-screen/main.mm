@@ -214,36 +214,12 @@ int main()
             renderPassDescriptor->release();
         }
     }
-
-    if (metalRenderPSO)
-    {
-        metalRenderPSO->release();
-        metalRenderPSO = nullptr;
-    }
     
-    if (triangleVertexBuffer)
-    {
-        triangleVertexBuffer->release();
-        triangleVertexBuffer = nullptr;
-    }
-    
-    if (metalCommandQueue)
-    {
-        metalCommandQueue->release();
-        metalCommandQueue = nullptr;
-    }
-    
-    if (metalDefaultLibrary)
-    {
-        metalDefaultLibrary->release();
-        metalDefaultLibrary = nullptr;
-    }
-    
-    if (metalDevice)
-    {
-        metalDevice->release();
-        metalDevice = nullptr;
-    }
+    if (metalRenderPSO)        { metalRenderPSO->release();        metalRenderPSO = nullptr; }
+    if (triangleVertexBuffer)  { triangleVertexBuffer->release();  triangleVertexBuffer = nullptr; }
+    if (metalCommandQueue)     { metalCommandQueue->release();     metalCommandQueue = nullptr; }
+    if (metalDefaultLibrary)   { metalDefaultLibrary->release();   metalDefaultLibrary = nullptr; }
+    if (metalDevice)           { metalDevice->release();           metalDevice = nullptr; }
     
     glfwDestroyWindow(window);
     glfwTerminate();
