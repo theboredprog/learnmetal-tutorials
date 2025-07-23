@@ -21,51 +21,9 @@
 // SOFTWARE.
 //
 
-#include <iostream>
-
-#define GLFW_INCLUDE_NONE
-#include "../third_party/glfw/include/GLFW/glfw3.h"
-
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-
-void glfwErrorCallback(int error, const char* description)
-{
-    std::cerr << "[GLFW ERROR] (" << error << "): " << description << std::endl;
-}
-
-int main()
-{
-    if(!glfwInit())
-    {
-        std::cerr << "[ERROR] Failed to initialize GLFW." << std::endl;
-        glfwTerminate();
-        std::exit(EXIT_FAILURE);
-    }
-    
-    glfwSetErrorCallback(glfwErrorCallback);
-    
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "My Window", nullptr, nullptr);
-
-    if (!window)
-    {
-        std::cerr << "[ERROR] Failed to create GLFW window." << std::endl;
-        glfwTerminate();
-        std::exit(EXIT_FAILURE);
-    }
-    
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwPollEvents();
-    }
-    
-    glfwDestroyWindow(window);
-    glfwTerminate();
-
-    return 0;
-}
+#define NS_PRIVATE_IMPLEMENTATION
+#define CA_PRIVATE_IMPLEMENTATION
+#define MTL_PRIVATE_IMPLEMENTATION
+#include <Foundation/Foundation.hpp>
+#include <Metal/Metal.hpp>
+#include <QuartzCore/QuartzCore.hpp>

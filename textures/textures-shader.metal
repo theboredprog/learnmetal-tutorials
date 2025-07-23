@@ -21,51 +21,29 @@
 // SOFTWARE.
 //
 
-#include <iostream>
+#include <metal_stdlib>
+using namespace metal;
 
-#define GLFW_INCLUDE_NONE
-#include "../third_party/glfw/include/GLFW/glfw3.h"
+struct VertexIn {
+    float3 position [[attribute(0)]];
+    float2 uv       [[attribute(1)]];
+};
 
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+struct VertexOut {
+    float4 position [[position]];
+    float2 uv;
+};
 
-void glfwErrorCallback(int error, const char* description)
-{
-    std::cerr << "[GLFW ERROR] (" << error << "): " << description << std::endl;
+vertex VertexOut vertexShader(uint vertexID [[vertex_id]],
+                              const device VertexIn* vertices [[buffer(0)]]) {
+    VertexOut out;
+    out.position = float4(vertices[vertexID].position, 1.0);
+    out.uv = vertices[vertexID].uv;
+    return out;
 }
 
-int main()
-{
-    if(!glfwInit())
-    {
-        std::cerr << "[ERROR] Failed to initialize GLFW." << std::endl;
-        glfwTerminate();
-        std::exit(EXIT_FAILURE);
-    }
-    
-    glfwSetErrorCallback(glfwErrorCallback);
-    
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "My Window", nullptr, nullptr);
-
-    if (!window)
-    {
-        std::cerr << "[ERROR] Failed to create GLFW window." << std::endl;
-        glfwTerminate();
-        std::exit(EXIT_FAILURE);
-    }
-    
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwPollEvents();
-    }
-    
-    glfwDestroyWindow(window);
-    glfwTerminate();
-
-    return 0;
+fragment float4 fragmentShader(VertexOut in [[stage_in]],
+                               texture2d<float> tex [[texture(0)]]) {
+    constexpr sampler s(address::clamp_to_edge, filter::linear);
+    return tex.sample(s, in.uv);
 }

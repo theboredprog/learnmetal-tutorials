@@ -54,7 +54,7 @@ int main()
     
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnMetal", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "My First Triangle", nullptr, nullptr);
 
     if (!window)
     {
