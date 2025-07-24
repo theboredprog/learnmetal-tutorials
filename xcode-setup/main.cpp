@@ -19,13 +19,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-//
+
 #include <iostream>
+
+// include metal bindings
 #include <Metal/Metal.hpp>
 
 int main(int argc, const char * argv[])
 {
+    // just to test things out, create a metal device
     MTL::Device* device = MTL::CreateSystemDefaultDevice();
+
     std::cout << "My First Metal App!\n";
+
     return 0;
 }

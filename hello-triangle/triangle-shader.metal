@@ -22,26 +22,36 @@
 //
 
 #include <metal_stdlib>
+
 using namespace metal;
 
+// Output structure from vertex shader to rasterizer
 struct VertexOut
 {
-    float4 position [[position]];
+    float4 position [[position]]; // Position in clip space (required output)
 };
 
+// Vertex shader:
+// - Takes vertex ID and pointer to an array of 3D vertex positions
+// - Outputs the position as a float4 (with w = 1.0) for rendering
 vertex VertexOut vertexShader(uint vertexID [[vertex_id]], constant float3* vertexPositions)
 {
     VertexOut out;
-    
+
+    // Load the 3D position from the input array and convert to float4 for GPU
     out.position = float4(vertexPositions[vertexID], 1.0);
-    
+
     return out;
 }
 
+// Fragment shader:
+// - Receives interpolated vertex output (position, unused here)
+// - Outputs a solid color (mint-like orange)
 fragment float4 fragmentShader(VertexOut in [[stage_in]])
 {
-    float4 mintColor = float4(1.0, 0.5, 0.2, 1.0);
+    float4 mintColor = float4(1.0, 0.5, 0.2, 1.0); // RGBA color
 
+    // Return solid color for every fragment (pixel)
     return mintColor;
 }
 

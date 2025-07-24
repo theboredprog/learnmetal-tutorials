@@ -19,31 +19,47 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-//
 
 #include <metal_stdlib>
 using namespace metal;
 
+// Input structure for vertex shader, describing vertex attributes
 struct VertexIn {
-    float3 position [[attribute(0)]];
-    float2 uv       [[attribute(1)]];
+    float3 position [[attribute(0)]];  // 3D position from vertex buffer attribute 0
+    float2 uv       [[attribute(1)]];  // Texture coordinates (UV) from vertex buffer attribute 1
 };
 
+// Output structure from vertex shader to fragment shader
 struct VertexOut {
-    float4 position [[position]];
-    float2 uv;
+    float4 position [[position]];  // Position in clip space (required output for rasterizer)
+    float2 uv;                     // Pass-through texture coordinates to fragment shader
 };
 
+// Vertex shader function:
+// - Receives vertex ID and a pointer to vertex array (buffer 0)
+// - Outputs transformed position and UV coordinates
 vertex VertexOut vertexShader(uint vertexID [[vertex_id]],
                               const device VertexIn* vertices [[buffer(0)]]) {
     VertexOut out;
+
+    // Convert vertex position to a 4D vector (x, y, z, w=1.0) for clip space
     out.position = float4(vertices[vertexID].position, 1.0);
+
+    // Pass UV coordinates to fragment shader unchanged
     out.uv = vertices[vertexID].uv;
+
     return out;
 }
 
+// Fragment shader function:
+// - Receives interpolated vertex output (UVs)
+// - Samples texture at given UV coordinates using a sampler
+// - Returns sampled color as output pixel color
 fragment float4 fragmentShader(VertexOut in [[stage_in]],
                                texture2d<float> tex [[texture(0)]]) {
+    // Define a sampler with clamp-to-edge addressing and linear filtering
     constexpr sampler s(address::clamp_to_edge, filter::linear);
+
+    // Sample the texture at the interpolated UV coordinates
     return tex.sample(s, in.uv);
 }

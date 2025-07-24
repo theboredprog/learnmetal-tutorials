@@ -25,12 +25,12 @@
 #include <simd/simd.h>
 
 #define GLFW_INCLUDE_NONE
-#include "../third_party/glfw/include/GLFW/glfw3.h"
+#include "path to glfw3.h"
 #define GLFW_EXPOSE_NATIVE_COCOA
-#include "../third_party/glfw/include/GLFW/glfw3native.h"
+#include "path to glfw3native.h"
 
-#include "../third_party/metal-cpp/Metal/Metal.hpp"
-#include "../third_party/metal-cpp/QuartzCore/CAMetalLayer.hpp"
+#include ".path to metal-cpp/Metal/Metal.hpp"
+#include "path to metal-cpp/QuartzCore/CAMetalLayer.hpp"
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
