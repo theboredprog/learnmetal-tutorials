@@ -23,12 +23,15 @@
 
 #include <iostream>
 
+// Prevent GLFW from including OpenGL headers automatically
 #define GLFW_INCLUDE_NONE
-#include "../third_party/glfw/include/GLFW/glfw3.h"
+#include "path to glfw3.h"  // Replace with actual glfw3.h path
 
+// Window dimensions
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+// GLFW error callback function to print errors
 void glfwErrorCallback(int error, const char* description)
 {
     std::cerr << "[GLFW ERROR] (" << error << "): " << description << std::endl;
@@ -36,36 +39,44 @@ void glfwErrorCallback(int error, const char* description)
 
 int main()
 {
+    // Initialize GLFW library
     if(!glfwInit())
     {
         std::cerr << "[ERROR] Failed to initialize GLFW." << std::endl;
-        glfwTerminate();
-        std::exit(EXIT_FAILURE);
+        glfwTerminate();          // Cleanup GLFW before exit
+        std::exit(EXIT_FAILURE);  // Exit program with failure code
     }
     
+    // Set the error callback function to handle GLFW errors
     glfwSetErrorCallback(glfwErrorCallback);
     
+    // Tell GLFW not to create an OpenGL context (for Vulkan, Metal, etc.)
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     
+    // Create a GLFW window with given width, height and title
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "My Window", nullptr, nullptr);
 
+    // Check if window creation failed
     if (!window)
     {
         std::cerr << "[ERROR] Failed to create GLFW window." << std::endl;
-        glfwTerminate();
-        std::exit(EXIT_FAILURE);
+        glfwTerminate();          // Cleanup GLFW before exit
+        std::exit(EXIT_FAILURE);  // Exit program with failure code
     }
     
+    // Get actual framebuffer size (important for high-DPI displays)
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     
+    // Main event loop: run until the window is closed
     while (!glfwWindowShouldClose(window))
     {
-        glfwPollEvents();
+        glfwPollEvents(); // Process pending window events
     }
     
+    // Cleanup and close the window
     glfwDestroyWindow(window);
-    glfwTerminate();
-
-    return 0;
+    glfwTerminate();  // Terminate GLFW
+    
+    return 0; // Exit program successfully
 }
